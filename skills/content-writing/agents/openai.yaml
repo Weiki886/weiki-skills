@@ -1,0 +1,4 @@
+interface:
+  display_name: "内容写作"
+  short_description: "从主旨、结构到事实核查与校对，撰写技术文章或营销文案"
+  default_prompt: "使用 $content-writing 先确定 technical / marketing 文体，再按读者、目的与平台完成选题、结构、初稿、事实核查与校对。"

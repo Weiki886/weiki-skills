@@ -20,6 +20,7 @@ skill 遵循开放的 **Agent Skills** 标准（`SKILL.md`），因此同一份�
 | Skill | 定位 | 语言 | 路径 |
 | --- | --- | --- | --- |
 | [github-engineering-workflow](skills/github-engineering-workflow) | 以 GitHub 为载体的软件工程交付规范：Proposal/ADR → Milestone → Issue → PR → Review/CI → Merge → Release → 复盘，先区分个人/团队交付场景再按协作规模裁剪流程强度 | 中文 | `skills/github-engineering-workflow` |
+| [content-writing](skills/content-writing) | 内容写作：技术文章 + 营销文案，先区分 technical / marketing 文体，覆盖选题、结构、初稿、事实核查与反 AI 味校对 | 中文 | `skills/content-writing` |
 
 ### github-engineering-workflow 包含
 
@@ -29,6 +30,20 @@ skills/github-engineering-workflow/
 ├── references/
 │   ├── practices.md            # 风险门禁矩阵、仓库治理、CI 分层、供应链安全、部署、DORA 度量
 │   └── templates.md            # DoR/DoD、Proposal/ADR/Milestone/Issue/PR/Release/紧急变更模板
+└── agents/
+    └── openai.yaml             # 可选 subagent 配置（仅 Codex 使用）
+```
+
+### content-writing 包含
+
+```
+skills/content-writing/
+├── SKILL.md                    # 触发 + 先定文体 + 写作前 7 问 + 主流程 + 两条路径红线
+├── references/
+│   ├── technical.md            # 技术文章结构、代码规范、准确性与可复现
+│   ├── marketing.md            # PAS/AIDA、痛点拆解、CTA 与社会证明
+│   ├── seo.md                  # 标题/关键词/摘要 SEO（两文体共用）
+│   └── checklist.md            # 事实核查 + 反 AI 味 + 校对
 └── agents/
     └── openai.yaml             # 可选 subagent 配置（仅 Codex 使用）
 ```
@@ -67,7 +82,7 @@ skill 使用开放的 Agent Skills 格式，同一份目录可直接用于以下
 在 Codex 中对它说：
 
 ```
-安装 Weiki886/weiki-skills 仓库里的 github-engineering-workflow skill
+安装 Weiki886/weiki-skills 仓库里的 github-engineering-workflow 和 content-writing skill
 ```
 
 或直接调用安装脚本（等价命令）：
@@ -75,7 +90,7 @@ skill 使用开放的 Agent Skills 格式，同一份目录可直接用于以下
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
   --repo Weiki886/weiki-skills \
-  --path skills/github-engineering-workflow
+  --path skills/github-engineering-workflow skills/content-writing
 ```
 
 安装后 skill 落到 `~/.codex/skills/`，重启 Codex（或下一个会话）后可用。
@@ -89,20 +104,24 @@ git clone https://github.com/Weiki886/weiki-skills.git
 
 # Codex
 cp -R weiki-skills/skills/github-engineering-workflow ~/.codex/skills/
+cp -R weiki-skills/skills/content-writing ~/.codex/skills/
 
 # Claude Code
 cp -R weiki-skills/skills/github-engineering-workflow ~/.claude/skills/
+cp -R weiki-skills/skills/content-writing ~/.claude/skills/
 
 # Cursor（全局）
 cp -R weiki-skills/skills/github-engineering-workflow ~/.cursor/skills/
+cp -R weiki-skills/skills/content-writing ~/.cursor/skills/
 
 # Trae（国内版全局）
 cp -R weiki-skills/skills/github-engineering-workflow ~/.trae-cn/skills/
+cp -R weiki-skills/skills/content-writing ~/.trae-cn/skills/
 ```
 
 ### 方式三：下载 zip 后解压
 
-下载仓库 zip、解压后，把 `skills/github-engineering-workflow` 放到上表对应工具的目录即可。
+下载仓库 zip、解压后，把 `skills/` 下需要的 skill 目录（如 `github-engineering-workflow`、`content-writing`）放到上表对应工具的目录即可。
 
 ## 使用
 
@@ -114,6 +133,8 @@ skill 由 `SKILL.md` 的 `description` 负责被触发，不需要手动「调�
 - 准备一次可复现的 Release，或复盘一次交付/事故
 
 加载后，它会先让你确认「个人 / 团队」交付场景，再按协作规模裁剪流程强度，避免用统一重量级流程压到个人小项目上。
+
+`content-writing` 会在你要求写技术文章或营销文案时触发：写博客 / 教程 / 公众号，或写产品介绍 / 获客转化 / 品牌内容。加载后先区分 technical / marketing 文体，再走「选题 → 结构 → 初稿 → 事实核查 → 反 AI 味校对」。
 
 ## 约定
 
