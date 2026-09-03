@@ -34,6 +34,48 @@
 - 公共/开源仓库提供 `SECURITY.md` 说明漏洞报告渠道与响应期限，并配合默认安全标签、依赖与凭据扫描；纯私有内部仓库可省略。
 - 开启签名提交与签名标签（GPG/SSH），视合规/供应链要求对公共仓库强制 Verified，个人项目可选。
 
+## Labels、Tag 与 Topics
+
+三者的职责必须分开：Labels 管理工作项，Git Tag 标记版本，Topics 帮助仓库被理解和发现。不要用一个对象承担另一个对象的职责。
+
+### GitHub Labels
+
+仓库没有现成约定时，采用小写、短横线分隔的分组命名，例如 `type:bug`；冒号前是维度，冒号后是值。建议目录如下：
+
+| 维度 | 示例 | 规则 |
+| --- | --- | --- |
+| `type` | `type:feature`、`type:bug`、`type:docs`、`type:chore`、`type:security` | Issue 至少一个；通常只选一个主要类型 |
+| `area` | `area:api`、`area:web`、`area:docs`、`area:ci` | 按影响范围选零个或多个；值应来自仓库模块 |
+| `priority` | `priority:p0`、`priority:p1`、`priority:p2`、`priority:p3` | 需要排序时最多一个；先定义响应含义，不把 P0 当“重要”的装饰 |
+| `risk` | `risk:low`、`risk:standard`、`risk:high`、`risk:emergency` | 与 Issue/PR 的风险分级一致，最多一个 |
+| `status` | `status:blocked`、`status:needs-info`、`status:ready` | 只表示需要跨工具保留的特殊状态；常规 `open/closed`、看板状态和 Assignee 不重复做成 Label |
+
+默认职责：Issue 创建者填写 `type`、已知 `area` 与风险；维护者在 triage 时校正并补充 `priority`。PR 至少继承关联 Issue 的 `area` 和 `risk`，改动范围变化时同步更新。安全、隐私、依赖漏洞和紧急修复使用专门类型或风险 Label，不能只写在正文里。
+
+个人项目采用最小集合：`type` + 必要时的 `risk`；不为只有一个值的维度建立一整组 Labels。团队项目再按实际筛选、统计和责任边界增加 `area`、`priority`，并把目录写入仓库贡献指南或 `.github/labels.yml` 等可审查位置。颜色只用于视觉分组，不承载流程语义；同一维度的颜色保持一致。
+
+Label 维护规则：
+
+- 创建前先搜索同义 Label，避免同时出现 `bug`、`defect`、`type:bug`。
+- 新 Label 必须有名称、含义、适用对象和 Owner；不再使用的 Label 先迁移现有 Issue/PR，再删除或标记废弃。
+- 每个季度或每轮重要迭代清理重复、无 Owner、长期未使用的 Label；删除前检查搜索、自动化和报表规则。
+- Label 只能辅助筛选，不能替代验收标准、风险依据、Milestone 或正文中的决策证据。
+
+### Git Tag 与 Release
+
+- 正式版本统一使用 `vMAJOR.MINOR.PATCH`，遵循 SemVer；预发布使用 `vMAJOR.MINOR.PATCH-rc.1`、`-beta.1` 等明确的预发布标识。
+- Tag 必须指向已验证的源 Commit，正式 Tag 使用 annotated tag；公共发布或供应链风险较高时启用 GPG/SSH 签名并验证 `Verified`。
+- Tag 创建后不移动、不删除后重建、不让同一个版本号指向不同 Commit。发现问题时发布新的 patch 版本；未公开且未被消费的预发布 Tag 才可按仓库约定废弃，并留下记录。
+- Release 绑定 Tag、源 Commit、Milestone/交付范围、Issue/PR、变更说明、已知问题、验证结果和升级/回滚方式；可执行产物按风险附摘要、SBOM、来源证明或签名。
+- 不给每个 Commit 随意打版本 Tag；个人项目在可用里程碑或对外发布时创建 Tag，团队项目按 Release 节奏创建 Tag。
+- 部署和回滚按产物摘要执行，不重新解析可移动 Tag；Tag 是版本入口，不是部署状态或环境指针。
+
+### GitHub Topics
+
+- Topics 使用小写、短横线分隔，例如 `ai-agents`、`developer-tools`、`typescript`；不放 `v1.0.0`、`in-progress`、某个 Issue 编号或个人状态。
+- 只保留能长期描述仓库的 3～10 个主题，优先产品领域、主要技术和使用场景；不要为了搜索流量堆同义词。
+- README、仓库描述和 Topics 应相互一致；项目方向改变时同步更新，至少每次大版本或季度治理时检查一次。
+
 ## 决策记录（ADR）
 
 - 对难以逆转、跨模块或影响长期演进的决策写 ADR，模板见 `templates.md`。
@@ -115,6 +157,9 @@
 
 ## 一手资料
 
+- [Managing labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)
+- [Classifying your repository with topics](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics)
+- [About tags](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases/about-releases#about-tags)
 - [Protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
 - [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
 - [Secure use of GitHub Actions](https://docs.github.com/en/actions/reference/security/secure-use)

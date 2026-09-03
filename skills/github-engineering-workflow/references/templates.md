@@ -4,6 +4,7 @@
 
 - [ ] Proposal/ADR 已接受，目标、非目标与用户价值明确。
 - [ ] Issue 已归属 Milestone，Owner、依赖与阻塞可见。
+- [ ] Issue Labels 已按仓库目录补齐；`type` 与风险级别明确，未用 Label 替代验收标准或状态管理。
 - [ ] 风险级别与依据已记录；高风险已安排领域 Owner 与威胁/风险评审。
 - [ ] 验收标准可观察、可重复验证。
 - [ ] 接口、数据、兼容性与迁移影响已说明。
@@ -13,6 +14,7 @@
 ## Definition of Done
 
 - [ ] PR 已关联 Issue，人工 Review、阻塞意见与必需 CI 已闭环。
+- [ ] Issue/PR Labels 与实际类型、范围、风险和优先级一致；无重复或过期 Label。
 - [ ] 主干构建、测试与适用安全检查通过，无未登记 flaky gate。
 - [ ] 文档、ADR、运行手册、迁移与 Feature Flag 生命周期已同步或不适用。
 - [ ] 权威构建产物可追溯到源 Commit；摘要及按风险所需 SBOM/来源证明已保存。
@@ -133,6 +135,13 @@ Proposed / Accepted / Superseded（by ADR-XXX）/ Deprecated
 - Milestone：
 - 依赖/阻塞：
 
+## Labels
+- 类型：`type:<feature|bug|docs|chore|security>`
+- 范围：`area:<module>`（可选）
+- 优先级：`priority:<p0|p1|p2|p3>`（按仓库约定，可选）
+- 风险：`risk:<low|standard|high|emergency>`
+- 特殊状态：`status:<blocked|needs-info|ready>`（仅确有需要时）
+
 ## 风险分级
 - 级别：low / standard / high / emergency
 - 依据：<数据、安全、兼容性、迁移、基础设施、爆炸半径和可恢复性>
@@ -170,6 +179,11 @@ Closes #<issue>
 - 级别：low / standard / high / emergency
 - 依据：
 - 领域 Reviewer/CODEOWNER：
+
+## Labels
+- 类型/范围：<继承 Issue 或按实际改动更新>
+- 风险：`risk:<low|standard|high|emergency>`
+- 优先级：<按仓库约定，可选>
 
 ## 关键改动
 - <聚焦本 Issue 的改动>
