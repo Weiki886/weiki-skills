@@ -21,6 +21,7 @@ skill 遵循开放的 **Agent Skills** 标准（`SKILL.md`），因此同一份�
 | --- | --- | --- | --- |
 | [github-engineering-workflow](skills/github-engineering-workflow) | 以 GitHub 为载体的软件工程交付规范：Proposal/ADR → Milestone → Issue → PR → Review/CI → Merge → Release → 复盘，先区分个人/团队交付场景再按协作规模裁剪流程强度 | 中文 | `skills/github-engineering-workflow` |
 | [content-writing](skills/content-writing) | 内容写作：技术文章 + 营销文案，先区分 technical / marketing 文体，覆盖选题、结构、初稿、事实核查与反 AI 味校对 | 中文 | `skills/content-writing` |
+| [code-review](skills/code-review) | 代码审查：先钉住 diff 基线并区分 self / peer 场景，再按规范符合度与需求符合度双轴分别审查，输出带严重度分级的意见与 verdict | 中文 | `skills/code-review` |
 
 ### github-engineering-workflow 包含
 
@@ -44,6 +45,20 @@ skills/content-writing/
 │   ├── marketing.md            # PAS/AIDA、痛点拆解、CTA 与社会证明
 │   ├── seo.md                  # 标题/关键词/摘要 SEO（两文体共用）
 │   └── checklist.md            # 事实核查 + 反 AI 味 + 校对
+└── agents/
+    └── openai.yaml             # 可选 subagent 配置（仅 Codex 使用）
+```
+
+
+### code-review 包含
+
+```
+skills/code-review/
+├── SKILL.md                    # 触发 + 先定场景 + 钉基线 + 双轴审查 + 严重度分级 + 主流程
+├── references/
+│   ├── checklist.md            # 五个质量维度详细清单、按变更类型专项检查、完整勾选清单
+│   ├── smells.md               # 设计坏味道基线（Fowler 12 种 + AI 生成代码特有坏味道）
+│   └── feedback.md             # 审查意见的写法与话术、接收意见的规则与响应流程、分歧处理
 └── agents/
     └── openai.yaml             # 可选 subagent 配置（仅 Codex 使用）
 ```
@@ -82,7 +97,7 @@ skill 使用开放的 Agent Skills 格式，同一份目录可直接用于以下
 在 Codex 中对它说：
 
 ```
-安装 Weiki886/weiki-skills 仓库里的 github-engineering-workflow 和 content-writing skill
+安装 Weiki886/weiki-skills 仓库里的 github-engineering-workflow、content-writing 和 code-review skill
 ```
 
 或直接调用安装脚本（等价命令）：
@@ -90,7 +105,7 @@ skill 使用开放的 Agent Skills 格式，同一份目录可直接用于以下
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
   --repo Weiki886/weiki-skills \
-  --path skills/github-engineering-workflow skills/content-writing
+  --path skills/github-engineering-workflow skills/content-writing skills/code-review
 ```
 
 安装后 skill 落到 `~/.codex/skills/`，重启 Codex（或下一个会话）后可用。
@@ -105,23 +120,27 @@ git clone https://github.com/Weiki886/weiki-skills.git
 # Codex
 cp -R weiki-skills/skills/github-engineering-workflow ~/.codex/skills/
 cp -R weiki-skills/skills/content-writing ~/.codex/skills/
+cp -R weiki-skills/skills/code-review ~/.codex/skills/
 
 # Claude Code
 cp -R weiki-skills/skills/github-engineering-workflow ~/.claude/skills/
 cp -R weiki-skills/skills/content-writing ~/.claude/skills/
+cp -R weiki-skills/skills/code-review ~/.claude/skills/
 
 # Cursor（全局）
 cp -R weiki-skills/skills/github-engineering-workflow ~/.cursor/skills/
 cp -R weiki-skills/skills/content-writing ~/.cursor/skills/
+cp -R weiki-skills/skills/code-review ~/.cursor/skills/
 
 # Trae（国内版全局）
 cp -R weiki-skills/skills/github-engineering-workflow ~/.trae-cn/skills/
 cp -R weiki-skills/skills/content-writing ~/.trae-cn/skills/
+cp -R weiki-skills/skills/code-review ~/.trae-cn/skills/
 ```
 
 ### 方式三：下载 zip 后解压
 
-下载仓库 zip、解压后，把 `skills/` 下需要的 skill 目录（如 `github-engineering-workflow`、`content-writing`）放到上表对应工具的目录即可。
+下载仓库 zip、解压后，把 `skills/` 下需要的 skill 目录（如 `github-engineering-workflow`、`content-writing`、`code-review`）放到上表对应工具的目录即可。
 
 ## 使用
 

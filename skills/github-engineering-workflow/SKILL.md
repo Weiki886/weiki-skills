@@ -70,7 +70,7 @@ description: 规划、执行或审计以 GitHub 为载体的软件工程交付�
 4. **Issue**：把 Issue 作为过程基本单元，禁止空泛标题；含背景、目标、非目标、关联、风险、验收标准、子任务与验证计划，并补齐适用 Labels。
 5. **Commit**：从已接受且可执行的 Issue 开始；短生命周期分支频繁同步；每个 Commit 表达一个完整意图并保持可构建。缺省遵循 Conventional Commits 的 `<type>(<scope>): <summary>`，并与 SemVer 关联以自动算版本与 changelog。
 6. **PR**：关联并关闭对应 Issue，范围与 Issue 一致；说明问题、关键改动、风险、验证证据、兼容性、部署与回滚，并同步适用 Labels，保持小而频繁。
-7. **Review**：先自审，再请至少一名合适的人类 Reviewer；AI 检查只补充、不替代。检查方向、逻辑、边界、测试、CI 与可部署性；区分 `Blocking` 与 `Nit/Optional/FYI`。
+7. **Review**：先自审，再请至少一名合适的人类 Reviewer；AI 检查只补充、不替代。检查方向、逻辑、边界、测试、CI 与可部署性；意见区分 `blocking` / `question` / `nit` / `fyi`，只有 `blocking` 阻塞合并。具体审查方法（钉基线、规范与需求双轴审查、质量维度、意见写法）见 `code-review` skill。
 8. **CI 与构建**：每提交触发可重复构建与快速检查，主干合并后再次验证；快速层放格式/静态检查/单测/关键安全，慢层放 e2e/性能/动态安全。flaky test 视为缺陷。
 9. **Merge**：Review 通过且必需检查成功后按仓库策略合并；保持主干可用，合并后删除短生命周期分支，禁止绕过 PR 直接落主干。
 10. **部署与 Release**：同一自动化流程把同一不可变产物逐环境晋级，部署与开放功能分开控制；高风险用 canary/渐进/Feature Flag。Milestone 结束创建绑定源 Commit 和产物证据的 Release 与不可变 Tag。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review"
+  short_description: "按规范符合度与需求符合度双轴审查代码变更，输出分级意见与结论"
+  default_prompt: "使用 $code-review 先钉住 diff 基线，再按规范符合度与需求符合度双轴审查变更，输出带严重度分级的意见与 verdict。"
