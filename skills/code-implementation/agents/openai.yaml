@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Implementation"
+  short_description: "澄清需求、写实现计划、红绿重构实现并交付前验证一段代码"
+  default_prompt: "使用 $code-implementation 先澄清需求并写实现计划，再按红绿重构逐任务实现，遇 bug 走系统化调试，交付前跑验证，最后交给 code-review 收口。"

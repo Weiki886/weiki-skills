@@ -14,6 +14,8 @@ metadata:
 1. 通过标准是「整体健康度确有改善」，不是「和我会写的一样」。完美的代码不存在，不因风格偏好阻塞变更。
 2. 先钉住 diff 基线再开始；说不清「在审哪两个点之间的差异」就不要开审。
 3. **双轴分离**：规范符合度与需求符合度分开审、分开报，不合并、不互相排名。一个轴通过不能掩盖另一个轴失败。
+
+**第三个视角（可选）**：两轴之外，另用「过工程」视角扫一遍——不必要的复杂度、重复造轮子、过度抽象。需要时见 `references/overengineering.md`。
 4. 每条意见必须带「严重度 + 位置 + 依据 + 下一步行动」。「可执行」指让作者明确知道下一步该做什么，不要求完整补丁；连下一步行动都给不出的意见不发。
 5. 仓库既有约定优先于本 Skill 默认；与仓库文档冲突时以仓库为准并说明。
 6. AI 生成代码需要**更严**的审查，不是更松——它自信且看起来合理，恰恰在错的时候也一样自信。
@@ -152,3 +154,4 @@ Verdict：<Approve / Approve with nits / Request changes / Needs info>
 - `references/checklist.md`：五个质量维度详细清单、按变更类型的专项检查、可勾选完整清单。
 - `references/smells.md`：设计坏味道基线（Fowler 12 种）与 AI 生成代码特有坏味道。
 - `references/feedback.md`：审查意见的写法、接收意见的规则、分歧处理。
+- `references/overengineering.md`：过工程审查——专门砍不必要的复杂度（delete/stdlib/native/yagni/shrink）。
