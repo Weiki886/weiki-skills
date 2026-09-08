@@ -34,6 +34,99 @@
 - 公共/开源仓库提供 `SECURITY.md` 说明漏洞报告渠道与响应期限，并配合默认安全标签、依赖与凭据扫描；纯私有内部仓库可省略。
 - 开启签名提交与签名标签（GPG/SSH），视合规/供应链要求对公共仓库强制 Verified，个人项目可选。
 
+## 分支命名与生命周期
+
+分支名是给人读的线索，不是权威关联。正式关联由 PR 的 `Closes #<issue>` 建立；分支名负责让人在分支列表里一眼看出「谁在做哪件事」。
+
+### 缺省格式
+
+```
+<type>/<issue>-<slug>        例：feat/42-oauth-login
+```
+
+| 段 | 规则 | 示例 |
+| --- | --- | --- |
+| `type` | 与 Conventional Commits 的 type 同一词表，不另造一套 | `feat` |
+| `issue` | 关联 Issue 编号，纯数字，不带 `#` | `42` |
+| `slug` | 2～4 个词概括意图，小写短横线 | `oauth-login` |
+
+### type 与 Label 的对应
+
+同一件事在三处出现（分支、Commit、Label），词表必须能对上，否则统计和筛选会断链：
+
+| 分支 / Commit type | 对应 Label | 用途 |
+| --- | --- | --- |
+| `feat` | `type:feature` | 新功能或功能增强 |
+| `fix` | `type:bug` | 缺陷修复 |
+| `docs` | `type:docs` | 仅文档改动 |
+| `refactor`、`perf`、`test`、`build`、`ci`、`style`、`chore` | `type:chore` | 不改变对外行为的工程性改动；`area:*` 补充范围 |
+| `fix`、`hotfix` + `type:security` | `type:security` | 安全修复，类型由 Label 承载而非新造 type |
+
+`hotfix/` 是唯一超出 Commit 词表的前缀，仅用于 `risk:emergency`：它要向 CI 和 Reviewer 明示「门禁被压缩过」。分支用 `hotfix/`，其中的 Commit 仍写 `fix:`。
+
+### 命名规则
+
+- 只用小写 ASCII 字母、数字、短横线，以及一个 `/` 分隔符；不用空格、中文、下划线、驼峰或 `#`（语言约定见下节）。
+- 一个分支一个目标。范围变了就新建分支，不在旧分支上改语义、不复用已合并的分支名。
+- 禁止：版本号形态（`v1.2.0`，与 Tag 混淆）、纯个人名（`yang-dev`）、无意义名（`test`、`new`、`tmp`、`fix2`）。
+- 不能同时存在 `feat/42-login` 与 `feat/42-login/api`。Git 的 ref 是文件路径，同名目录与文件冲突会导致创建直接失败。
+- 分支名不与既有 Tag 重名，避免 `git checkout <name>` 指向歧义。
+- 总长控制在 50 字符内，保证 CI 日志、终端和 PR 列表可读。
+- 前缀保持稳定，便于 ruleset、必需检查和自动打标按 `feat/*`、`hotfix/*` 这类模式匹配。
+
+### 生命周期
+
+- 短生命周期分支存活数小时～一天，期间频繁与主干同步，避免长期偏离。
+- 合并后立即删除；不保留已合并分支作「历史备份」，历史由 Commit 和 Tag 承载。
+- 缺省只有默认分支一条长生命周期分支。
+- 仅在需要同时维护多个受支持版本时新增 `release/<MAJOR>.<MINOR>`（如 `release/1.4`），并纳入分支保护；它只接收该版本的修复，不承载日常开发。
+- 不建 `develop`、`staging` 等常驻集成分支，除非确有 Git Flow 需求并以 ADR 记录理由。
+
+### 个人 / 团队裁剪
+
+- **solo**：trunk-based 直接提主干仍然允许；一旦开分支就遵守本节命名。没有 Issue 时省掉编号，用 `<type>/<slug>`（`feat/oauth-login`）。
+- **team**：必须带 Issue 编号，保证分支列表可追溯到需求；编号只是可读线索，不替代 PR 的 `Closes #<issue>`。
+
+## Git 对象的语言约定
+
+区分「Git 内部标识」与「GitHub 协作文本」：前者是机器与工具链要消费的，统一英文；后者面向人，用团队习惯语言。
+
+| 对象 | 语言 | 理由 |
+| --- | --- | --- |
+| 分支名 | **英文**，必须 | ref 会进入 URL、CI 变量、shell 命令与 ruleset 匹配模式 |
+| Commit 标题（`<type>(<scope>): <summary>`） | **英文**，必须 | 进入 changelog、`git log --oneline`、release notes 与自动化解析 |
+| Tag | **英文**，必须 | `vMAJOR.MINOR.PATCH`，本身无自然语言 |
+| Label / Topic | **英文**，缺省 | 参与筛选、自动化与仓库发现 |
+| Commit 正文 | 中文可 | 面向读者解释「为什么」；solo 与中文团队用中文更准确 |
+| Issue / PR 标题与正文 | 中文可 | 面向人的协作文本，不进工具链解析 |
+
+### Commit 标题为什么必须英文
+
+- `type` 与 `scope` 本身是英文词表，summary 混入中文会让同一行出现两种语言，`git log --oneline` 扫读时反而更慢。
+- semantic-release、changelog 生成、`git log --grep` 与提交检查工具围绕英文 summary 设计；中文标题在自动生成的 release notes 里通常无法与英文条目对齐。
+- 标题是最长期暴露的文本：仓库一旦公开或引入协作者，历史无法回改（改写等于重写历史）。
+
+写法：小写开头、无句号、祈使句（`add`、`fix`、`remove`，不是 `added`、`fixes`）、不超过 72 字符。
+
+反例与修正：
+
+| 错误 | 修正 |
+| --- | --- |
+| `fixup: 碎片化密钥模式字面量，通过秘密扫描` | `fix: split secret pattern literals to pass secret scanning` |
+| `docs: 编写 README，说明三个子命令与安全边界` | `docs: document three subcommands and security boundaries` |
+| `feat: 添加 OAuth 登录` | `feat(auth): add OAuth login` |
+
+需要中文解释时放正文，不放标题：
+
+```
+fix: split secret pattern literals to pass secret scanning
+
+密钥扫描把源码里完整的模式字面量误判为真实凭据。
+拆成拼接形式，保持匹配行为不变。
+```
+
+注：`fixup` 不是 Conventional Commits 的 type。它只应作为 `git commit --fixup` 的临时提交存在，并在合并前 `git rebase --autosquash` 压掉；不要让 `fixup:` 留在主干历史里。
+
 ## Labels、Tag 与 Topics
 
 三者的职责必须分开：Labels 管理工作项，Git Tag 标记版本，Topics 帮助仓库被理解和发现。不要用一个对象承担另一个对象的职责。

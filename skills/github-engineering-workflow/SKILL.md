@@ -46,7 +46,7 @@ description: 规划、执行或审计以 GitHub 为载体的软件工程交付�
 - **Git Tag**：指向某个 Commit 的版本引用，回答「发布了哪一版」；发布 Tag 创建后视为不可变，不用移动 Tag 指向新 Commit。
 - **GitHub Topic**：仓库级主题词，回答「这个仓库属于什么领域」；使用小写、短横线分隔的稳定词，不放版本号、临时状态或 Issue 状态。
 
-默认命名与使用规则、个人/团队裁剪和维护责任见 `references/practices.md`。仓库已有约定优先；没有约定时，Issue 至少有一个 `type:*` 和一个风险级别，正式发布使用 `vMAJOR.MINOR.PATCH` Tag。
+默认命名与使用规则、个人/团队裁剪和维护责任见 `references/practices.md`（含分支命名与生命周期、Git 对象的语言约定）。仓库已有约定优先；没有约定时，Issue 至少有一个 `type:*` 和一个风险级别，正式发布使用 `vMAJOR.MINOR.PATCH` Tag。
 
 ## 开始与完成
 
@@ -57,7 +57,7 @@ description: 规划、执行或审计以 GitHub 为载体的软件工程交付�
 1. 读仓库 `AGENTS.md`、`CONTRIBUTING*`、`README*`、`SECURITY*`、Issue/PR 模板、分支保护、CI、标签与发布约定。
 2. 确认默认分支、当前 Milestone、关联 Issue、仓库可见性、测试命令与发布方式。
 3. 确认系统关键性、数据敏感性、部署环境、风险分级与事故响应方式。
-4. 沿用已有命名、Labels、Tag、Topics、Commit 与合并策略；仅仓库无约定时采用本 Skill 默认。
+4. 沿用已有命名、分支前缀、Labels、Tag、Topics、Commit 与合并策略；仅仓库无约定时采用本 Skill 默认。
 5. 审计任务保持只读并输出证据；实施任务仅执行授权范围内的变更。
 
 ## 标准链路
@@ -68,7 +68,7 @@ description: 规划、执行或审计以 GitHub 为载体的软件工程交付�
 2. **架构**：由人主导模块边界、依赖、接口契约、数据模型与技术风险；接口和调用关系须真实存在，可留空或用 mock/桩。不以目录树或技术栈清单冒充架构。
 3. **Milestone**：把一批 Issue 聚成一轮可验收交付，写清目标、范围、非目标、验收标准与预期 Release。个人或一次性项目可省略 Milestone，直接用 Release/Tag 作为交付单元；团队协作或多迭代交付时才建立。
 4. **Issue**：把 Issue 作为过程基本单元，禁止空泛标题；含背景、目标、非目标、关联、风险、验收标准、子任务与验证计划，并补齐适用 Labels。
-5. **Commit**：从已接受且可执行的 Issue 开始；短生命周期分支频繁同步；每个 Commit 表达一个完整意图并保持可构建。缺省遵循 Conventional Commits 的 `<type>(<scope>): <summary>`，并与 SemVer 关联以自动算版本与 changelog。
+5. **Commit**：从已接受且可执行的 Issue 开始；短生命周期分支频繁同步，合并后即删。分支缺省命名 `<type>/<issue>-<slug>`（如 `feat/42-oauth-login`），type 复用 Conventional Commits 词表，solo 无 Issue 时可省编号。每个 Commit 表达一个完整意图并保持可构建，缺省遵循 Conventional Commits 的 `<type>(<scope>): <summary>`，并与 SemVer 关联以自动算版本与 changelog。**分支名、Commit 标题与 Tag 一律用英文**；需要中文解释写进 Commit 正文，Issue/PR 标题正文不受限。
 6. **PR**：关联并关闭对应 Issue，范围与 Issue 一致；说明问题、关键改动、风险、验证证据、兼容性、部署与回滚，并同步适用 Labels，保持小而频繁。
 7. **Review**：先自审，再请至少一名合适的人类 Reviewer；AI 检查只补充、不替代。检查方向、逻辑、边界、测试、CI 与可部署性；意见区分 `blocking` / `question` / `nit` / `fyi`，只有 `blocking` 阻塞合并。具体审查方法（钉基线、规范与需求双轴审查、质量维度、意见写法）见 `code-review` skill。
 8. **CI 与构建**：每提交触发可重复构建与快速检查，主干合并后再次验证；快速层放格式/静态检查/单测/关键安全，慢层放 e2e/性能/动态安全。flaky test 视为缺陷。
