@@ -15,7 +15,7 @@
 
 - [ ] PR 已关联 Issue，人工 Review、阻塞意见与必需 CI 已闭环。
 - [ ] 短生命周期分支已在合并后删除；无遗留的已合并分支。
-- [ ] 分支名、Commit 标题与 Tag 为英文；无 `fixup:`/`squash!` 等临时提交残留在主干历史。
+- [ ] 分支名、Commit 标题、PR 标题与 Tag 为英文；无 `fixup:`/`squash!` 等临时提交残留在主干历史。
 - [ ] Issue/PR Labels 与实际类型、范围、风险和优先级一致；无重复或过期 Label。
 - [ ] 主干构建、测试与适用安全检查通过，无未登记 flaky gate。
 - [ ] 文档、ADR、运行手册、迁移与 Feature Flag 生命周期已同步或不适用。
@@ -172,6 +172,8 @@ Proposed / Accepted / Superseded（by ADR-XXX）/ Deprecated
 
 ## PR 模板
 
+> PR 标题必须使用英文；Issue 标题和 PR 正文可按团队协作语言使用中文。
+
 ```markdown
 ## 解决的问题
 Closes #<issue>
@@ -229,6 +231,7 @@ Closes #<issue>
 
 ## Review 检查表
 
+- [ ] PR 标题使用英文，准确概括本次变更意图。
 - [ ] PR 与 Issue、Proposal、Milestone 一致。
 - [ ] 改动小而聚焦，无无关重构或格式化噪音。
 - [ ] 风险级别合理，门禁与爆炸半径匹配。

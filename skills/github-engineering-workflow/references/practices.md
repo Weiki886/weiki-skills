@@ -95,10 +95,15 @@
 | --- | --- | --- |
 | 分支名 | **英文**，必须 | ref 会进入 URL、CI 变量、shell 命令与 ruleset 匹配模式 |
 | Commit 标题（`<type>(<scope>): <summary>`） | **英文**，必须 | 进入 changelog、`git log --oneline`、release notes 与自动化解析 |
+| PR 标题 | **英文**，必须 | 进入合并历史、通知、Release Notes 与自动化生成的变更记录 |
 | Tag | **英文**，必须 | `vMAJOR.MINOR.PATCH`，本身无自然语言 |
 | Label / Topic | **英文**，缺省 | 参与筛选、自动化与仓库发现 |
 | Commit 正文 | 中文可 | 面向读者解释「为什么」；solo 与中文团队用中文更准确 |
-| Issue / PR 标题与正文 | 中文可 | 面向人的协作文本，不进工具链解析 |
+| Issue 标题与正文、PR 正文 | 中文可 | 面向人的协作文本，可按团队协作语言选择 |
+
+PR 标题必须用英文准确概括变更意图；Issue 标题即使使用中文，关联 PR 的标题仍须改写为英文，不直接复制中文 Issue 标题。除非仓库另有格式要求，不强制 PR 标题套用 Conventional Commits；PR 正文可使用中文解释背景、取舍与验证证据。
+
+示例：`Add OAuth login support`、`Fix session loss after provider switching`；不要写 `添加 OAuth 登录支持` 或 `修复切换 Provider 后会话丢失`。
 
 ### Commit 标题为什么必须英文
 
