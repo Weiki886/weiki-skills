@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project README"
+  short_description: "按证据阶梯撰写或审计项目 README，Quick Start 必须真实可跑"
+  default_prompt: "使用 $project-readme 先定场景与模式，扫仓库收集事实，再按证据阶梯写 README；验证不了的先问不编。"

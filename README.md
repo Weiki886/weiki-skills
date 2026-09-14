@@ -23,6 +23,7 @@ skill 遵循开放的 **Agent Skills** 标准（`SKILL.md`），因此同一份�
 | [content-writing](skills/content-writing) | 内容写作：技术文章 + 营销文案，先区分 technical / marketing 文体，覆盖选题、结构、初稿、事实核查与反 AI 味校对 | 中文 | `skills/content-writing` |
 | [code-review](skills/code-review) | 代码审查：先钉住 diff 基线并区分 self / peer 场景，再按规范符合度与需求符合度双轴分别审查，输出带严重度分级的意见与 verdict | 中文 | `skills/code-review` |
 | [code-implementation](skills/code-implementation) | 代码实现：把需求实现成正确、可验证、可合入的代码，覆盖澄清需求 → 实现计划 → TDD 红绿重构 → 系统化调试 → 交付验证，完成后交给 code-review 收口 | 中文 | `skills/code-implementation` |
+| [project-readme](skills/project-readme) | 项目 README：为 CLI、MCP 和本地开发者工具新建、改进或审计 README，强调证据阶梯、可运行 Quick Start、任务化用法、安全/数据边界、排错与已知限制 | 中文 | `skills/project-readme` |
 
 ### github-engineering-workflow 包含
 
@@ -80,6 +81,19 @@ skills/code-implementation/
     └── openai.yaml             # 可选 subagent 配置（仅 Codex 使用）
 ```
 
+### project-readme 包含
+
+```
+skills/project-readme/
+├── SKILL.md                    # 触发 + solo/public 与 create/improve/audit + 证据阶梯 + 主流程
+├── references/
+│   ├── structure.md            # 阅读流、CLI/MCP 等项目类型取舍、安全边界、排错与设计文档写法
+│   ├── evidence.md             # 仓库扫描清单、安全/数据面证据、禁止编造项
+│   └── checklist.md            # README 写入前质量门禁
+└── agents/
+    └── openai.yaml             # 可选 subagent 配置（仅 Codex 使用）
+```
+
 ## 目录结构
 
 ```
@@ -114,7 +128,7 @@ skill 使用开放的 Agent Skills 格式，同一份目录可直接用于以下
 在 Codex 中对它说：
 
 ```
-安装 Weiki886/weiki-skills 仓库里的 github-engineering-workflow、content-writing、code-review 和 code-implementation skill
+安装 Weiki886/weiki-skills 仓库里的 github-engineering-workflow、content-writing、code-review、code-implementation 和 project-readme skill
 ```
 
 或直接调用安装脚本（等价命令）：
@@ -122,7 +136,7 @@ skill 使用开放的 Agent Skills 格式，同一份目录可直接用于以下
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
   --repo Weiki886/weiki-skills \
-  --path skills/github-engineering-workflow skills/content-writing skills/code-review skills/code-implementation
+  --path skills/github-engineering-workflow skills/content-writing skills/code-review skills/code-implementation skills/project-readme
 ```
 
 安装后 skill 落到 `~/.codex/skills/`，重启 Codex（或下一个会话）后可用。
@@ -139,29 +153,33 @@ cp -R weiki-skills/skills/github-engineering-workflow ~/.codex/skills/
 cp -R weiki-skills/skills/content-writing ~/.codex/skills/
 cp -R weiki-skills/skills/code-review ~/.codex/skills/
 cp -R weiki-skills/skills/code-implementation ~/.codex/skills/
+cp -R weiki-skills/skills/project-readme ~/.codex/skills/
 
 # Claude Code
 cp -R weiki-skills/skills/github-engineering-workflow ~/.claude/skills/
 cp -R weiki-skills/skills/content-writing ~/.claude/skills/
 cp -R weiki-skills/skills/code-review ~/.claude/skills/
 cp -R weiki-skills/skills/code-implementation ~/.claude/skills/
+cp -R weiki-skills/skills/project-readme ~/.claude/skills/
 
 # Cursor（全局）
 cp -R weiki-skills/skills/github-engineering-workflow ~/.cursor/skills/
 cp -R weiki-skills/skills/content-writing ~/.cursor/skills/
 cp -R weiki-skills/skills/code-review ~/.cursor/skills/
 cp -R weiki-skills/skills/code-implementation ~/.cursor/skills/
+cp -R weiki-skills/skills/project-readme ~/.cursor/skills/
 
 # Trae（国内版全局）
 cp -R weiki-skills/skills/github-engineering-workflow ~/.trae-cn/skills/
 cp -R weiki-skills/skills/content-writing ~/.trae-cn/skills/
 cp -R weiki-skills/skills/code-review ~/.trae-cn/skills/
 cp -R weiki-skills/skills/code-implementation ~/.trae-cn/skills/
+cp -R weiki-skills/skills/project-readme ~/.trae-cn/skills/
 ```
 
 ### 方式三：下载 zip 后解压
 
-下载仓库 zip、解压后，把 `skills/` 下需要的 skill 目录（如 `github-engineering-workflow`、`content-writing`、`code-review`、`code-implementation`）放到上表对应工具的目录即可。
+下载仓库 zip、解压后，把 `skills/` 下需要的 skill 目录（如 `github-engineering-workflow`、`content-writing`、`code-review`、`code-implementation`、`project-readme`）放到上表对应工具的目录即可。
 
 ## 使用
 
@@ -177,6 +195,8 @@ skill 由 `SKILL.md` 的 `description` 负责被触发，不需要手动「调�
 `content-writing` 会在你要求写技术文章或营销文案时触发：写博客 / 教程 / 公众号，或写产品介绍 / 获客转化 / 品牌内容。加载后先区分 technical / marketing 文体，再走「选题 → 结构 → 初稿 → 事实核查 → 反 AI 味校对」。
 
 `code-implementation` 会在你要求实现新功能、修复缺陷或重构代码时触发：写实现 / 修 bug / 做重构。加载后先区分一次性（throwaway）与需维护（maintained）场景，再走「澄清需求 → 实现计划 → TDD 红绿重构 → 系统化调试 → 交付验证」，完成后交给 `code-review` 收口。
+
+`project-readme` 会在你要求新建、重写、改进或审计项目 README 时触发。加载后先区分 solo/public 与 create/improve/audit，再扫描仓库证据，重点保证 Quick Start 可运行、命令和配置真实存在、安全/数据边界与排错信息不虚构；已有 README 会先确认处理方式，不会直接覆盖。
 
 ## 约定
 
