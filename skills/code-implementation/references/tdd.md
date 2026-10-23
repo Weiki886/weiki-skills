@@ -118,6 +118,21 @@ def retry_operation(fn, *, max_retries=3, backoff="linear", on_retry=None):
 
 发现 bug：先写一个能复现它的失败测试，再走红绿循环。测试既证明修复，也防回归。**没有测试不修 bug。**
 
+## 遗留代码：先刻画，再动手
+
+要改的代码没有测试时，不能裸改——你无法知道自己改坏了什么。
+
+1. **Characterization test（特征测试）先行**：一行生产代码都不改，先写测试记录「这段代码当前**实际**输出什么」。当前行为哪怕怪异也先如实锁住——先描述事实，再评判对错。有了这张安全网，再走红绿去改行为。
+2. **大重构用 Mikado Method（米卡多方法）**：先记录工作区基线，再试目标改动；若编译或测试暴露前置依赖，只撤销本次实验引入的改动，保留用户和其他任务的修改，把前置记为一个任务。对前置递归同样操作，直到拆出一个当前就能独立完成的叶子任务，再自底向上逐个合入。全程主干保持绿色，不靠「长期重构分支」。
+
+> 方法依据：Michael Feathers《Working Effectively with Legacy Code》（seam、characterization test）；Ola Ellnestam / Daniel Brolund《The Mikado Method》。
+
+## 测行为，不测实现
+
+- 断言可观察的输入 / 输出与副作用，不绑私有方法、内部调用次数或实现步骤；否则一次普通重构就得改一堆测试，说明测试在给实现上保险。
+- 测试该回答「行为对不对」，而不是「代码是不是按我预想的方式写的」。
+- **Flaky 即缺陷**：同一测试无改动间歇失败，先重复跑确认（如 `pytest --count`、`go test -count`），再隔离顺序依赖、时间、随机数、共享状态与并发问题。重跑碰绿只是把不确定性留给后面的人。
+
 ## 收尾清单
 
 离开前逐条勾：
@@ -129,5 +144,7 @@ def retry_operation(fn, *, max_retries=3, backoff="linear", on_retry=None):
 - [ ] 全部测试通过、输出干净
 - [ ] 测试用真实代码（mock 只在迫不得已时）
 - [ ] 边界与错误分支已覆盖
+- [ ] 遗留代码先有 characterization test 锁住现状
+- [ ] 间歇失败已查因，没用重跑掩盖 flaky
 
 勾不全 = 跳过了 TDD，回炉重做。
