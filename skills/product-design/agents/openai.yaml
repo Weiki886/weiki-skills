@@ -1,0 +1,4 @@
+interface:
+  display_name: "产品设计规范"
+  short_description: "开发前用决策三要素与两步法把需求收敛为可评审、可验证的 Proposal"
+  default_prompt: "使用 $product-design 先写回理解并判定有无界面与 MiniSpec/FullSpec，再按调研、共识、两步法细化、Proposal 定稿的流程完成产品设计。"
