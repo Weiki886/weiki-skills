@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Implementation"
+  short_description: "Clarify requirements, plan, implement with TDD, and verify before delivery"
+  default_prompt: "Use $code-implementation to clarify the request, plan the work, implement each task with TDD, debug systematically, verify before delivery, and hand off to code-review."

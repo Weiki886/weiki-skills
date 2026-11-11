@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Writing"
+  short_description: "Write technical articles or marketing content with verified facts"
+  default_prompt: "Use $content-writing to choose technical or marketing mode, then shape the topic, structure, draft, fact-check, and edit for the audience and platform."

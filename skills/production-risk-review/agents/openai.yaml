@@ -1,0 +1,4 @@
+interface:
+  display_name: "Production Risk Review"
+  short_description: "Review database, outage, and rollback risks before merge"
+  default_prompt: "Use $production-risk-review to decide whether this PR is safe to merge for production, focusing on data loss, crashes, blast radius, rollback, and blockers."

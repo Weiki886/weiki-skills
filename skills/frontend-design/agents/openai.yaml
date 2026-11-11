@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Design"
+  short_description: "Design, refine, and verify production-ready interfaces"
+  default_prompt: "Use $frontend-design to choose build, refine, redesign, or review; preserve the product's behavior and information architecture when refining; then implement an accessible, subject-grounded UI and verify its rendering."

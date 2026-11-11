@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review"
+  short_description: "Review changes against repository standards and requirements"
+  default_prompt: "Use $code-review to pin the diff baseline, assess repository standards and requirement compliance, and report prioritized findings with a verdict."

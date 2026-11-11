@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Engineering Workflow"
+  short_description: "Plan and deliver traceable, risk-aware software through GitHub"
+  default_prompt: "Use $github-engineering-workflow to plan, execute, or audit GitHub development, CI/CD, and release work according to project risk."

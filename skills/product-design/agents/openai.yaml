@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Design"
+  short_description: "Turn requirements into a decision-led, verifiable Proposal"
+  default_prompt: "Use $product-design to confirm the request, choose UI/no-UI and MiniSpec/FullSpec, research alternatives, align on a direction, and finalize the Proposal."

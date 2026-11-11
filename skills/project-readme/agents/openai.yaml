@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project README"
+  short_description: "Write or audit evidence-based project READMEs with a runnable Quick Start"
+  default_prompt: "Use $project-readme to classify the audience and mode, inspect the repository, and write an evidence-based README; ask rather than invent unverified facts."

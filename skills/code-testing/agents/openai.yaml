@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Testing"
+  short_description: "Design effective tests and run the required pre-submission suite"
+  default_prompt: "Use $code-testing to derive tests from requirements and contracts, cover boundaries and failures, prove key tests catch defects, and run the required suite."

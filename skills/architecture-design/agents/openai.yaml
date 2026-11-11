@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Design"
+  short_description: "Turn finalized requirements into clear system boundaries and contracts"
+  default_prompt: "Use $architecture-design to derive architecture drivers, assess technical risks, define module responsibilities, data ownership and interfaces, then prepare and verify an implementation-ready system skeleton where applicable."
