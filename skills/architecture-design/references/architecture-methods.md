@@ -8,6 +8,21 @@ Start with the smallest set of views that clarifies the system. A system context
 
 Source: [C4 model diagrams](https://c4model.com/diagrams)
 
+## Layered System Overview
+
+When a reader needs a single orientation view, a layered overview can summarize the system without replacing the detailed architecture:
+
+1. **Drivers:** show the few quality requirements or constraints that materially shape the design.
+2. **Context:** place external actors, data sources, and consuming systems around the system boundary.
+3. **Capabilities:** group the system's major responsibilities or containers and show their important dependencies.
+4. **Flows:** show a small number of representative end-to-end paths, such as data ingestion, user queries, or model delivery.
+5. **Deployment and trust boundaries:** add tenants, control/data planes, networks, or storage locations only when these affect ownership, isolation, security, or operations.
+6. **Legend and traceability:** define arrow meanings and connect major components or flows to requirement identifiers when the diagram is used for review.
+
+Keep the overview at one abstraction level where possible. If it combines context, components, runtime flows, and deployment topology, label those regions clearly and move detail to separate views when arrows or labels become difficult to follow. Distinguish synchronous calls, asynchronous events, and data movement instead of using unlabeled arrows for all three. Mark proposed elements and unresolved boundaries so readers do not mistake them for implemented facts. Benefits or technology names should explain requirement-backed choices, not serve as promotional decoration.
+
+This pattern is synthesized from the provided layered data-platform diagram. Its Databricks-specific products and services are examples from that diagram, not defaults or recommendations for other systems.
+
 ## arc42 Documentation
 
 Use arc42 as a menu of topics when a durable architecture description is needed: context, constraints, solution strategy, building blocks, runtime views, deployment, cross-cutting concepts, quality requirements, risks, and decisions. Do not fill every section mechanically. Select the sections that explain design rationale or guide implementation, and keep text in version-controlled formats when practical.
